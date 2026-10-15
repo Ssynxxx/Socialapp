@@ -102,11 +102,12 @@ class PostsController {
             const post = await Post.findByPk(id)
 
             if (!post || !post.isUserBy(req.session.userId)) {
-            return res.redirect("/posts")
+                return res.redirect("/posts")
             }
+            const title = post.title
 
             await post.destroy()
-            res.redirect("/posts")
+            res.redirect(`/posts?message=post ${encodeURIComponent(title)} has been deleted`)
         } catch (error) {
             res.send(error.message)
         }
