@@ -1,0 +1,37 @@
+<%- include('partials/header') %>
+<%
+  const name = post.User.Profile ? post.User.Profile.name : post.User.email
+  const handle = post.User.username || post.User.email.split('@')[0]
+%>
+<div class="feed">
+  <article class="post">
+    <div class="post-head">
+      <div class="avatar"><span><%= initials(name) %></span></div>
+      <div>
+        <span class="post-user"><%= handle %></span>
+        <span class="post-time">· <%= formatDate(post.createdAt) %></span>
+      </div>
+    </div>
+
+    <img class="post-img" src="<%= post.imageUrl %>" alt="<%= post.title %>">
+
+    <% if (currentUser.id === post.UserId) { %>
+      <div class="post-actions">
+        <a href="/posts/<%= post.id %>/edit" aria-label="Edit"><i class="ti ti-edit"></i></a>
+        <a class="danger" href="/posts/<%= post.id %>/delete" aria-label="Hapus"
+           onclick="return confirm('Hapus post ini?')"><i class="ti ti-trash"></i></a>
+      </div>
+    <% } %>
+
+    <div class="post-body">
+      <p class="post-title"><%= post.title %></p>
+      <p><b><%= handle %></b> <%= post.caption %></p>
+      <p class="hashtags">
+        <% post.Tags.forEach(t => { %><a href="/posts?tag=<%= t.id %>">#<%= t.name %></a><% }) %>
+      </p>
+      <div class="post-date"><%= formatDate(post.createdAt).toUpperCase() %></div>
+    </div>
+  </article>
+  <p class="form-alt"><a href="/posts">&larr; Kembali ke beranda</a></p>
+</div>
+<%- include('partials/footer') %>

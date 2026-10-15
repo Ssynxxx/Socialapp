@@ -1,46 +1,25 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Register</title>
-</head>
-<body>
-  <h1>Register</h1>
+<%- include('partials/header') %>
+<div class="form-box">
+  <h1 class="wordmark center">SocialApp</h1>
 
-  <% if (errors.length > 0) { %>
-    <ul>
-      <% errors.forEach((e) => { %>
-        <li><%= e %></li>
-      <% }) %>
-    </ul>
-  <% } %>
+  <%- include('partials/errors', { errors }) %>
 
   <form action="/register" method="POST" novalidate>
-    <div>
-      <label for="username">Username (opsional)</label><br>
+    <div class="field">
+      <label for="username">Username (opsional)</label>
       <input type="text" id="username" name="username">
     </div>
-    <br>
-    <div>
-      <label for="email">Email</label><br>
+    <div class="field">
+      <label for="email">Email</label>
       <input type="email" id="email" name="email">
     </div>
-    <br>
-    <div>
-      <label for="password">Password</label><br>
+    <div class="field">
+      <label for="password">Password</label>
       <input type="password" id="password" name="password">
     </div>
-    <br>
-    <div>
-      <label for="role">Role</label><br>
-      <select id="role" name="role">
-        <option value="buyer">Buyer</option>
-        <option value="seller">Seller</option>
-      </select>
-    </div>
-    <br>
-    <button type="submit">Register</button>
+    <button class="btn" type="submit">Register</button>
   </form>
-</body>
-</html>
+
+  <p class="form-alt">Sudah punya akun? <a href="/login">Login</a></p>
+</div>
+<%- include('partials/footer') %>

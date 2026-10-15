@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, Op
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
@@ -16,14 +16,54 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static getById(id) {
-      const { User } = sequelize.models
+      const { User, Profile, Tag } = sequelize.models
       return Post.findByPk(id, {
-        include: { 
-          model: User, 
-          attributes: { 
-            exclude: ['password'] 
-          } 
-        }
+        include: [
+          {
+            model: User,
+            attributes: {
+              exclude: ['password']
+            },
+            include: Profile
+          },
+          Tag
+        ]
+      })
+    }
+
+    // dipakai beranda: pencarian (judul/caption), filter tag, dan urutan
+    static async searchAndSort({ search, sort, tag } = {}) {
+      const { User, Profile, Tag, PostTag } = sequelize.models
+      const where = {}
+
+      if (search) {
+        where[Op.or] = [
+          { title: { [Op.iLike]: `%${search}%` } },
+          { caption: { [Op.iLike]: `%${search}%` } }
+        ]
+      }
+
+      const tagId = Number(tag)
+      if (tag && Number.isInteger(tagId)) {
+        const rows = await PostTag.findAll({ where: { TagId: tagId }, attributes: ['PostId'] })
+        where.id = { [Op.in]: rows.map(r => r.PostId) }
+      }
+
+      let order = [['createdAt', 'DESC']]
+      if (sort === 'oldest') order = [['createdAt', 'ASC']]
+      if (sort === 'title') order = [['title', 'ASC']]
+
+      return Post.findAll({
+        where,
+        order,
+        include: [
+          {
+            model: User,
+            attributes: { exclude: ['password'] },
+            include: Profile
+          },
+          Tag
+        ]
       })
     }
 

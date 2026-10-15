@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SocialApp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="/"><h1 class="wordmark">SocialApp</h1></a>
+      <nav class="nav-icons">
+        <% if (currentUser) { %>
+          <a href="/posts" aria-label="Beranda"><i class="ti ti-home"></i></a>
+          <a href="/posts/add" aria-label="Post baru"><i class="ti ti-square-plus"></i></a>
+          <a href="/profile/<%= currentUser.id %>" aria-label="Profil"><i class="ti ti-user"></i></a>
+          <a href="/logout" aria-label="Logout"><i class="ti ti-logout"></i></a>
+        <% } else { %>
+          <a class="nav-text" href="/login">Login</a>
+          <a class="nav-text" href="/register">Register</a>
+        <% } %>
+      </nav>
+    </div>
+  </header>
+  <main class="container">

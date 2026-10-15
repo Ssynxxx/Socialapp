@@ -2,6 +2,10 @@ const { User } = require("../models")
 const bcrypt = require("bcryptjs")
 
 class UserController {
+    static landing(req, res) {
+        res.render("landing.ejs")
+    }
+
     static async registerForm(req, res) {
         try {
             res.render("regis.ejs", { errors: [] })

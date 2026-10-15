@@ -1,0 +1,22 @@
+<%- include('partials/header') %>
+<div class="form-box">
+  <h2>Buat profil</h2>
+  <%- include('partials/errors', { errors }) %>
+
+  <form action="/profile/add/<%= UserId %>" method="POST" novalidate>
+    <div class="field">
+      <label for="name">Nama</label>
+      <input type="text" id="name" name="name" value="<%= values.name || '' %>">
+    </div>
+    <div class="field">
+      <label for="imageProfile">URL foto profil</label>
+      <input type="text" id="imageProfile" name="imageProfile" value="<%= values.imageProfile || '' %>">
+    </div>
+    <div class="field">
+      <label for="bio">Bio</label>
+      <textarea id="bio" name="bio" rows="4"><%= values.bio || '' %></textarea>
+    </div>
+    <button class="btn" type="submit">Simpan</button>
+  </form>
+</div>
+<%- include('partials/footer') %>

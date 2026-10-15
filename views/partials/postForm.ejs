@@ -1,0 +1,28 @@
+<%- include('errors', { errors }) %>
+
+<form action="<%= action %>" method="POST" novalidate>
+  <div class="field">
+    <label for="title">Judul</label>
+    <input type="text" id="title" name="title" value="<%= data.title || '' %>">
+  </div>
+  <div class="field">
+    <label for="imageUrl">URL gambar</label>
+    <input type="text" id="imageUrl" name="imageUrl" value="<%= data.imageUrl || '' %>">
+  </div>
+  <div class="field">
+    <label for="caption">Caption</label>
+    <textarea id="caption" name="caption" rows="5"><%= data.caption || '' %></textarea>
+  </div>
+  <div class="field">
+    <label>Tag</label>
+    <div class="tag-picks">
+      <% tags.forEach(t => { %>
+        <label>
+          <input type="checkbox" name="tagIds" value="<%= t.id %>" <%= selected.includes(t.id) ? 'checked' : '' %>>
+          #<%= t.name %>
+        </label>
+      <% }) %>
+    </div>
+  </div>
+  <button class="btn" type="submit"><%= submitLabel %></button>
+</form>

@@ -1,0 +1,39 @@
+<%- include('partials/header') %>
+<section class="landing">
+
+  <!-- Pratinjau ponsel (hanya hiasan) -->
+  <div class="phone" aria-hidden="true">
+    <div class="phone-head">
+      <div class="avatar"><span>RS</span></div>
+      <b>rina</b>
+    </div>
+    <div class="phone-img"></div>
+    <div class="phone-line w70"></div>
+    <div class="phone-line w45"></div>
+    <div class="phone-tags">#travel #kuliner</div>
+  </div>
+
+  <!-- Ajakan daftar -->
+  <div class="landing-side">
+    <div class="auth-box">
+      <h1 class="wordmark">SocialApp</h1>
+      <p class="tagline">Bagikan foto dan cerita dari orang-orang terdekatmu.</p>
+      <% if (currentUser) { %>
+        <a class="btn" href="/posts">Lihat beranda</a>
+      <% } else { %>
+        <a class="btn" href="/register">Daftar</a>
+        <a class="btn btn-outline" href="/login">Login</a>
+      <% } %>
+    </div>
+    <% if (!currentUser) { %>
+      <div class="auth-alt">Sudah punya akun? <a href="/login">Login</a></div>
+    <% } %>
+  </div>
+</section>
+
+<section class="features">
+  <div><b>Post</b>Tulis dan edit ceritamu</div>
+  <div><b>Tag</b>Kelompokkan topik favorit</div>
+  <div><b>Profil</b>Kenalkan dirimu</div>
+</section>
+<%- include('partials/footer') %>

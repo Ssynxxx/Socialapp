@@ -1,0 +1,145 @@
+<%- include('partials/header') %>
+
+<% if (notif) { %>
+  <p id="notif-success" class="success feed"><%= notif %></p>
+<% } %>
+
+<% if (error) { %>
+  <p id="notif-error" class="error feed"><%= error %></p>
+<% } %>
+
+<form class="search" method="GET" action="/posts">
+  <input
+    type="text"
+    name="search"
+    value="<%= search %>"
+    placeholder="Cari judul atau isi post"
+  >
+
+  <select name="tag">
+    <option value="">Semua tag</option>
+    <% tags.forEach(t => { %>
+      <option
+        value="<%= t.id %>"
+        <%= String(t.id) === tag ? 'selected' : '' %>
+      >
+        #<%= t.name %>
+      </option>
+    <% }) %>
+  </select>
+
+  <button type="submit">Cari</button>
+</form>
+
+<div class="feed">
+  <% if (!posts.length) { %>
+    <p class="empty">Belum ada post yang cocok.</p>
+  <% } %>
+
+  <% posts.forEach(post => {
+       const name = post.User.Profile
+         ? post.User.Profile.name
+         : post.User.email;
+
+       const handle = post.User.username
+         || post.User.email.split('@')[0];
+  %>
+
+    <article class="post">
+      <div class="post-head">
+        <div class="avatar">
+          <% if (post.User.Profile && post.User.Profile.imageProfile) { %>
+            <img
+              src="<%= post.User.Profile.imageProfile %>"
+              alt="Foto profil <%= name %>"
+            >
+          <% } else { %>
+            <span><%= initials(name) %></span>
+          <% } %>
+        </div>
+        <div>
+          <span class="post-user"><%= handle %></span>
+          <span class="post-time">
+            · <%= formatDate(post.createdAt) %>
+          </span>
+        </div>
+      </div>
+
+      <% if (post.imageUrl) { %>
+        <a href="/posts/<%= post.id %>">
+          <img
+            class="post-img"
+            src="<%= post.imageUrl %>"
+            alt="<%= post.title %>"
+          >
+        </a>
+      <% } %>
+
+      <div class="post-actions">
+        <a
+          href="/posts/<%= post.id %>"
+          aria-label="Detail dan QR"
+        >
+        </a>
+
+        <% if (currentUser.id === post.UserId) { %>
+          <a
+            href="/posts/<%= post.id %>/edit"
+            aria-label="Edit"
+          >
+            <i class="ti ti-edit"></i>
+          </a>
+
+          <a
+            class="danger"
+            href="/posts/<%= post.id %>/delete"
+            aria-label="Hapus"
+            onclick="return confirm('Hapus post ini?')"
+          >
+            <i class="ti ti-trash"></i>
+          </a>
+        <% } %>
+      </div>
+
+      <div class="post-body">
+        <p class="post-title"><%= post.title %></p>
+
+        <p>
+          <b><%= handle %></b>
+          <%= shorten(post.caption) %>
+        </p>
+
+        <p class="hashtags">
+          <% post.Tags.forEach(t => { %>
+            <a href="/posts?tag=<%= t.id %>">
+              #<%= t.name %>
+            </a>
+          <% }) %>
+        </p>
+
+        <div class="post-date">
+          <%= formatDate(post.createdAt).toUpperCase() %>
+        </div>
+      </div>
+    </article>
+
+  <% }) %>
+</div>
+
+<script>
+  // Call a Timeout
+  setTimeout(myFunction, 5000);
+
+  // The callback function
+  function myFunction() {
+    const notifications = document.querySelectorAll(
+      '#notif-success, #notif-error'
+    );
+
+    notifications.forEach(function (item) {
+      item.style.display = 'none';
+    });
+  }
+</script>
+
+<%- include('partials/footer') %>

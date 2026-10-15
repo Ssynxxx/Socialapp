@@ -6,7 +6,7 @@ const ProfileController = require('../controllers/ProfileController');
 const router = express.Router();
 
 // REGIS , LOGIN , LOGOUT
-// router.get('/', Controller.landing)
+router.get('/', UserController.landing)
 router.get('/register', UserController.registerForm)
 router.post('/register', UserController.register)
 router.get('/login', UserController.loginForm)

@@ -1,11 +1,93 @@
-<h1>Profile</h1>
 
-<% if (user.Profile) { %>
-  <img src="<%= user.Profile.imageProfile %>" alt="Foto profile" width="120">
-  <h2><%= user.Profile.name %></h2>
-  <p>@<%= user.username || user.email %></p>
-  <p><%= user.Profile.bio %></p>
-  <a href="/profile/edit">Edit profile</a>
-<% } else { %>
-  <p>Profile belum dibuat.</p>
-<% } %>
+<%- include('partials/header') %>
+
+<section class="profile">
+
+  <% if (data) { %>
+    <div class="profile-header">
+      <img
+        class="profile-img"
+        src="<%= data.imageProfile %>"
+        alt="Foto profil <%= data.name %>"
+      >
+
+      <div class="profile-info">
+        <h2><%= data.name %></h2>
+
+        <p class="muted">
+          @<%= data.User.username || data.User.email %>
+        </p>
+
+        <div class="profile-stats">
+          <span>
+            <strong><%= posts.length %></strong> postingan
+          </span>
+        </div>
+
+        <p class="profile-bio"><%= data.bio || '' %></p>
+      </div>
+    </div>
+
+  <% } else { %>
+    <div class="profile-header">
+      <div class="profile-img profile-placeholder">?</div>
+
+      <div class="profile-info">
+        <h2>Profil belum dibuat</h2>
+
+        <% if (currentUser.id === Number(id)) { %>
+          <a class="btn" href="/profile/add/<%= id %>">
+            Buat profil
+          </a>
+        <% } %>
+      </div>
+    </div>
+  <% } %>
+
+  <div class="profile-posts">
+    <div class="profile-posts-heading">
+      <i class="ti ti-grid-3x3"></i>
+      <span>POSTINGAN</span>
+    </div>
+
+    <% if (posts.length === 0) { %>
+      <div class="empty-posts">
+        <i class="ti ti-camera" aria-hidden="true"></i>
+        <h3>Belum ada postingan</h3>
+        <p>Foto dan postingan yang diunggah akan muncul di sini.</p>
+      </div>
+
+    <% } else { %>
+      <div class="profile-post-grid">
+        <% posts.forEach(post => { %>
+          <a
+            class="profile-post-item"
+            href="/posts/<%= post.id %>"
+            aria-label="Lihat post <%= post.title %>"
+          >
+            <% if (post.imageUrl) { %>
+              <img
+                src="<%= post.imageUrl %>"
+                alt="<%= post.title %>"
+                loading="lazy"
+              >
+            <% } else { %>
+              <div class="profile-post-no-image">
+                <i class="ti ti-file-text"></i>
+                <span><%= post.title %></span>
+              </div>
+            <% } %>
+
+            <div class="profile-post-overlay">
+              <i class="ti ti-eye"></i>
+              <span>Lihat post</span>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+
+</section>
+
+<%- include('partials/footer') %>

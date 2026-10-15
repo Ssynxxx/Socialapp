@@ -1,0 +1,6 @@
+<%- include('partials/header') %>
+<div class="form-box wide">
+  <h2>Edit post</h2>
+  <%- include('partials/postForm', { action: '/posts/' + post.id + '/edit', data: post, tags, selected, errors, submitLabel: 'Simpan perubahan' }) %>
+</div>
+<%- include('partials/footer') %>
