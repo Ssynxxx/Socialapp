@@ -1,7 +1,7 @@
 {
   "name": "social-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "npm install\r npx sequelize-cli db:create\r npx sequelize-cli db:migrate\r npx sequelize-cli db:seed:all   \r npm run dev",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
